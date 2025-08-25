@@ -147,6 +147,7 @@ def save_problem_summaries(summaries: List[ProblemSummary]):
     """
     保存 problems.json，并自动合并旧数据
     """
+    PROBLEMS_JSON = OUT_DIR / "problems.json"  # 放在函数内部
     if PROBLEMS_JSON.exists():
         try:
             old_problems = json.loads(PROBLEMS_JSON.read_text("utf-8"))
