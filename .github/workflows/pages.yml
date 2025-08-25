@@ -7,7 +7,7 @@ on:
         description: '手动指定题号（逗号分隔，可留空）'
         required: false
   schedule:
-    - cron: '50 * * * *'  # 每天 03:35 UTC 定时抓取
+    - cron: '46 * * * *'  # 每天 03:35 UTC 定时抓取
 
 permissions:
   contents: write
