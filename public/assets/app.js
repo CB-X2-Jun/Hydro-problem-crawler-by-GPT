@@ -5,7 +5,7 @@ const tagFilter = document.getElementById('tagFilter');
 
 async function loadList(){
   try{
-    const res = await fetch('../data/problems.json', {cache:'no-store'});
+    const res = await fetch('./data/problems.json', {cache:'no-store'});
     const list = await res.json();
     render(list);
     setupFilter(list);
