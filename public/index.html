@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CXOJ · Hydro 题库镜像（只读）</title>
+  <link rel="stylesheet" href="assets/style.css" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <!-- highlight.js 默认样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/default.min.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <h1>CXOJ</h1>
+      <nav>
+        <a href="./index.html" class="active">题目列表</a>
+        <a href="https://hydro.ac" target="_blank" rel="noopener">Hydro</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="toolbar card">
+      <input id="search" type="search" placeholder="搜索标题/标签…" />
+      <select id="tagFilter">
+        <option value="">按标签筛选…</option>
+      </select>
+    </section>
+
+    <section class="card">
+      <table class="problems">
+        <thead>
+          <tr>
+            <th style="width: 110px;">题号</th>
+            <th>标题</th>
+            <th style="width: 40%;">标签</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div id="empty" class="empty" hidden>没有匹配的题目</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span>本页面为只读镜像演示，题面版权归原站点所有。</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+  <script type="module" src="./assets/app.js"></script>
+</body>
+</html>
