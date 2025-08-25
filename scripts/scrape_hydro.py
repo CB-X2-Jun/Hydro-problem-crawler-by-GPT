@@ -1,15 +1,10 @@
-# 修改点：
-# 1. 修复 HYDRO_SLEEP 环境变量为空字符串时报错 → 加入默认值回退。
-# 2. 支持 Hydro /p 路径（你已改 entry_paths）。
-
-# scripts/scrape_hydro.py
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Hydro 题库抓取脚本 (修复版)
+Hydro 题库抓取脚本 (修复+增量合并版)
 - 修复 HYDRO_SLEEP 为空字符串导致 float() 报错的问题。
 - entry_paths 已精简为 ["/p"]，可抓取 H1000 等题目。
+- 保存 problems.json 时自动合并旧数据，避免覆盖。
 """
 import os
 import re
@@ -148,6 +143,28 @@ def save_detail(detail: ProblemDetail) -> Dict:
     (PROB_DIR / f"{detail.id}.json").write_text(json.dumps(d, ensure_ascii=False, indent=2), "utf-8")
     return d
 
+def save_problem_summaries(summaries: List[ProblemSummary]):
+    """
+    保存 problems.json，并自动合并旧数据
+    """
+    if PROBLEMS_JSON.exists():
+        try:
+            old_problems = json.loads(PROBLEMS_JSON.read_text("utf-8"))
+            old_dict = {p["id"]: p for p in old_problems}
+        except Exception:
+            old_dict = {}
+    else:
+        old_dict = {}
+
+    new_dict = {p.id: asdict(p) for p in summaries}
+    merged = {**old_dict, **new_dict}
+
+    PROBLEMS_JSON.write_text(
+        json.dumps(list(merged.values()), ensure_ascii=False, indent=2),
+        "utf-8"
+    )
+    print(f"[*] Wrote {len(merged)} summaries → data/problems.json")
+
 def main():
     if EXPLICIT_IDS:
         ids = EXPLICIT_IDS[:MAX_PROBLEMS]
@@ -164,12 +181,15 @@ def main():
         if not detail:
             continue
         save_detail(detail)
-        summaries.append(ProblemSummary(id=detail.id, title=detail.title, href=f"problem.html?id={detail.id}", tags=detail.tags))
+        summaries.append(ProblemSummary(
+            id=detail.id,
+            title=detail.title,
+            href=f"problem.html?id={detail.id}",
+            tags=detail.tags
+        ))
         time.sleep(SLEEP)
 
-    problems = [asdict(x) for x in summaries]
-    (OUT_DIR / "problems.json").write_text(json.dumps(problems, ensure_ascii=False, indent=2), "utf-8")
-    print(f"[*] Wrote {len(problems)} summaries → data/problems.json")
+    save_problem_summaries(summaries)
 
 if __name__ == "__main__":
     main()
