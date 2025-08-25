@@ -24,7 +24,7 @@ PROB_DIR = OUT_DIR / "problems"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 PROB_DIR.mkdir(parents=True, exist_ok=True)
 
-# ---- 修复这里 ----
+# ---- 修复 HYDRO_SLEEP ----
 def _env_float(key: str, default: float) -> float:
     val = os.getenv(key)
     if val is None or val.strip() == "":
@@ -147,7 +147,8 @@ def save_problem_summaries(summaries: List[ProblemSummary]):
     """
     保存 problems.json，并自动合并旧数据
     """
-    PROBLEMS_JSON = OUT_DIR / "problems.json"  # 放在函数内部
+    PROBLEMS_JSON = OUT_DIR / "problems.json"  # 放函数内部，避免 NameError
+
     if PROBLEMS_JSON.exists():
         try:
             old_problems = json.loads(PROBLEMS_JSON.read_text("utf-8"))
