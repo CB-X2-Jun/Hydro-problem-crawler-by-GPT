@@ -15,7 +15,7 @@ async function load(){
     return;
   }
   try{
-    const res = await fetch(`../data/problems/${id}.json`, {cache:'no-store'});
+    const res = await fetch(`./data/problems/${id}.json`, {cache:'no-store'});
     const data = await res.json();
     titleEl.textContent = data.title || id;
     sourceLink.href = data.source || '#';
