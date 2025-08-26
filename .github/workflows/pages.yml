@@ -1,11 +1,8 @@
 name: Build & Deploy CXOJ Pages
 
 on:
-  workflow_dispatch:
-    inputs:
-      problem_ids:
-        description: '手动指定题号（逗号分隔，可留空）'
-        required: false
+  workflow_dispatch:  # 可以手动触发
+    inputs: {}       # 不需要题号输入
 
 permissions:
   contents: write
@@ -29,9 +26,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install beautifulsoup4 requests
 
+      - name: Read pid.txt
+        id: read_pid
+        run: |
+          PID_LIST=$(cat pid.txt)
+          echo "PID_LIST=$PID_LIST" >> $GITHUB_ENV
+
       - name: Scrape Hydro
         env:
-          HYDRO_PROBLEM_IDS: ${{ inputs.problem_ids }}
+          HYDRO_PROBLEM_IDS: ${{ env.PID_LIST }}
           HYDRO_MAX_PROBLEMS: ${{ vars.HYDRO_MAX_PROBLEMS }}
           HYDRO_SLEEP: ${{ vars.HYDRO_SLEEP }}
         run: |
