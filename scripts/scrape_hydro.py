@@ -36,7 +36,7 @@ def _env_float(key: str, default: float) -> float:
         return default
 
 SLEEP = _env_float("HYDRO_SLEEP", 0.8)
-MAX_PROBLEMS = int(os.getenv("HYDRO_MAX_PROBLEMS", "300") or 300)
+MAX_PROBLEMS = int(os.getenv("HYDRO_MAX_PROBLEMS", "30000") or 30000)
 EXPLICIT_IDS = [s.strip() for s in os.getenv("HYDRO_PROBLEM_IDS", "").split(",") if s.strip()]
 
 # 简易缓存，避免重复请求
